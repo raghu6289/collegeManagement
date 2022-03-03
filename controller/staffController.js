@@ -1,6 +1,7 @@
 const db = require("../models")
 
 const Staff = db.staff
+const Dept=db.department
 
 // Creating APi's
 
@@ -43,10 +44,30 @@ deleteStaff = async (req, res) => {
 }
 
 
+// 6 Staff Belongsto which department
+
+
+getDepartment = async (req, res) => {
+    let id = req.params.id;
+    const data = await Staff.findOne({
+        include: [{
+            model: Dept,
+            as: "staffDepartment",
+            attributes: ['name', 'desc']
+        }],
+        where: {
+            id: id
+        }
+    })
+    return res.status(200).send(data)
+}
+
+
 module.exports={
     addStaff,
     getAllStaff,
     getOneStaff,
     updateStaff,
-    deleteStaff
+    deleteStaff,
+    getDepartment
 }

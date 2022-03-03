@@ -8,6 +8,8 @@ router.post("/subject",subController.addSubject)
 router.get("/subject",subController.getAllSubject)
 
 router.get("/subject/:id",subController.getOneSubject)
+router.get("/subject/:id/student",subController.getStudent)
+
 router.put("/subject/:id",subController.updateSubject)
 router.delete("/subject/:id",subController.deleteSubject)
 

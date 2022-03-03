@@ -42,12 +42,30 @@ deleteSubject = async (req, res) => {
     return res.status(200).send("Subject details Deleted")
 }
 
+// 6. subject id belongs to which student
+
+getStudent = async (req, res) => {
+    let id = req.params.id;
+    const data = await Student.findOne({
+        include: [{
+            model: Student,
+            as: "student",
+            attributes: ['student_id','name','dept_id']
+        }],
+        where: {
+            id: id
+        }
+    })
+    return res.status(200).send(data)
+}
+
 
 module.exports={
     addSubject,
     getAllSubject,
     getOneSubject,
     updateSubject,
-    deleteSubject
+    deleteSubject,
+    getStudent
 
 }

@@ -31,27 +31,55 @@ sequelize.sync({alter:true}).then(()=>{
     console.log("Sync is Done..");
 })
 
-// db.sequelize.sync().then(() => {
-//     console.log("Sync is Done..");
-// }).catch((err)=>{
-//     console.log("error occured..",err);
-// })
-
 // Relationship
 
-db.department.hasMany(db.student,{foreignKey:"dept_id",sourceKey:"id"})
-db.student.belongsTo(db.department,{foreignKey:"dept_id",targetKey:"id"})
+// For Students one to Many, Department to student
 
-db.department.hasMany(db.staff,{foreignKey:"dept_id",sourceKey:"id"})
-db.staff.belongsTo(db.department,{foreignKey:"dept_id",targetKey:"id"})
+db.department.hasMany(db.student,{
+    foreignKey:"dept_id",sourceKey:"id",
+    as:"students"
+})
 
-db.student.hasMany(db.subject,{foreignKey:"student_id",sourceKey:"id"})
-db.subject.belongsTo(db.student,{foreignKey:"student_id",targetKey:"id"})
+db.student.belongsTo(db.department,{
+    foreignKey:"dept_id",targetKey:"id",
+    as:"department"
+})
 
-db.subject.hasMany(db.marks,{foreignKey:"sub_id",sourceKey:"id"})
-db.marks.belongsTo(db.subject,{foreignKey:"sub_id",targetKey:"id"})
+//For Staff one to Many Department to Staff
 
-db.student.hasMany(db.marks,{foreignKey:"student_id",sourceKey:"id"})
-db.marks.belongsTo(db.student,{foreignKey:"student_id",targetKey:"id"})
+db.department.hasMany(db.staff,{
+    foreignKey:"dept_id",sourceKey:"id",
+    as:"staffs"
+})
+
+db.staff.belongsTo(db.department,{
+    foreignKey:"dept_id",targetKey:"id",
+    as:"staffDepartment"
+})
+
+// Student to subject
+
+db.student.hasMany(db.subject,{
+    foreignKey:"student_id",sourceKey:"id",
+    as:"subject"
+})
+
+db.subject.belongsTo(db.student,{
+    foreignKey:"student_id",targetKey:"id",
+    as:"students"
+})
+
+// Department to subject
+
+db.department.hasMany(db.subject,{
+    foreignKey:"dept_id",sourceKey:"id",
+    as:"departmentsubject"
+})
+
+db.subject.belongsTo(db.department,{
+    foreignKey:"dept_id",targetKey:"id",
+    as:"department"
+})
+
 
 module.exports = db

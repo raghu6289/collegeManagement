@@ -1,7 +1,8 @@
 const db = require("../models")
-const student = require("../models/student")
 
-const Dept = db.department
+const Dept = db.department;
+const Students = db.student;
+const Staffs = db.staff;
 
 // Creating APi's
 
@@ -43,12 +44,48 @@ deleteDept = async (req, res) => {
     return res.status(200).send("Department details Deleted")
 }
 
+// 6 Department wise All Staffs
+
+getAllStaff = async (req, res) => {
+    let id = req.params.id;
+    const data = await Dept.findAll({
+        include: [{
+            model: Staffs,
+            as: "staffs",
+            attributes: ['id','name', 'phoneNumber', 'address','dept_id']
+        }],
+        where: {
+            id: id
+        }
+    })
+    return res.status(200).send(data)
+}
+
+// 7 Department wise All students
+
+getAllStudent = async (req, res) => {
+    let id = req.params.id;
+    const data = await Dept.findAll({
+        include: [{
+            model: Students,
+            as: "students",
+            attributes: ['id','name', 'phoneNumber', 'address','dept_id']
+        }],
+        where: {
+            id: id
+        }
+    })
+    return res.status(200).send(data)
+}
+
 
 
 module.exports = {
     addDept,
-    getAllDept,
     getOneDept,
+    getAllDept,
     updateDept,
     deleteDept,
+    getAllStaff,
+    getAllStudent
 }
