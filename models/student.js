@@ -1,0 +1,41 @@
+module.exports=(Sequelize,DataTypes)=>{
+    const student=Sequelize.define("student",{
+        id:{
+            type:DataTypes.INTEGER,
+            allowNull:false,
+            primaryKey:true,
+            autoIncrement:true
+        },
+        name:{
+            type:DataTypes.STRING,
+            allowNull:false,
+        },
+        phoneNumber:{
+            type:DataTypes.TEXT,
+            allowNull:false,
+            validate:{
+                isNumeric:true
+            }
+        },
+        dateOfBirth:{
+            type:DataTypes.DATEONLY,
+            allowNull:false
+        },
+        gender:{
+            type:DataTypes.ENUM("Male","Female","Others"),
+            allowNull:false,
+        },
+        address:{
+            type:DataTypes.TEXT,
+            allowNull:false
+        },
+        isActive:{
+            type:DataTypes.BOOLEAN,
+            allowNull:false
+        },
+    },{
+        freezTableName:true,
+        paranoid:true,
+    })
+    return student
+}
