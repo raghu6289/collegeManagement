@@ -1,4 +1,4 @@
-const marksController = require("../controller/marks.js")
+const marksController = require("../controller/marksController.js")
 
 const router = require("express").Router()
 
